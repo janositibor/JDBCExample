@@ -54,7 +54,7 @@ class ActorRepositoryTest {
         assertThat(actors)
                 .hasSize(2)
                 .extracting(Actor::getName,Actor::getYob)
-                .contains(Tuple.tuple("Scherer Peter",1961),Tuple.tuple("Mucsi Zoltan",1957));
+                .containsExactly(Tuple.tuple("Scherer Peter",1961),Tuple.tuple("Mucsi Zoltan",1957));
     }
 
 }
