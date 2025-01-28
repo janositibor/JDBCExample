@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {
+    private Long id;
     private String title;
     private LocalDate releaseDate;
     private List<Actor> actors=new ArrayList<>();
@@ -15,14 +16,14 @@ public class Movie {
         this.releaseDate = releaseDate;
     }
 
-    public Movie(String title, LocalDate releaseDate, List<Integer> evaluation) {
-        this(title,releaseDate);
-        this.evaluation = evaluation;
+    public Movie(Long id, String title, LocalDate releaseDate) {
+        this.id = id;
+        this.title = title;
+        this.releaseDate = releaseDate;
     }
 
-    public Movie(String title, LocalDate releaseDate, List<Actor> actors, List<Integer> evaluation) {
-        this(title,releaseDate,evaluation);
-        this.actors = actors;
+    public Long getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -39,5 +40,14 @@ public class Movie {
 
     public List<Integer> getEvaluation() {
         return evaluation;
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", releaseDate=" + releaseDate +
+                '}';
     }
 }

@@ -32,7 +32,7 @@ class ActorRepositoryTest {
     }
 
     @Test
-    void saveFindActorTest(){
+    void findActorTest(){
         Actor actor1=new Actor("Scherer Peter",1961);
         long id1=actorRepository.saveBasicAndGetGeneratedKey(actor1).get();
         Actor actor2=new Actor("Mucsi Zoltan",1957);

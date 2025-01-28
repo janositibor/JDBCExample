@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ActorRepository {
+public class ActorRepository implements Repository{
     private MariaDbDataSource dataSource;
 
     public ActorRepository(MariaDbDataSource dataSource) {
@@ -28,16 +28,7 @@ public class ActorRepository {
             throw new IllegalArgumentException("Error by insert actor: "+actor, sqle);
         }
     }
-    private Optional<Long> executeAndGetGeneratedKey(PreparedStatement stmt){
-        try (ResultSet rs = stmt.getGeneratedKeys()) {
-            if (rs.next()) {
-                return Optional.of(rs.getLong(1));
-            }
-            return Optional.empty();
-        } catch (SQLException sqle) {
-            throw new IllegalArgumentException("Error by inserting actor", sqle);
-        }
-    }
+
     public Optional<Actor> findActor(Actor actor) {
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt =
