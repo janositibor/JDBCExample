@@ -27,6 +27,33 @@ public class RatingRepository implements Repository {
         }
     }
 
+    public void save(Movie movie, List<Integer> ratings) {
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt =
+                     conn.prepareStatement("insert into ratings (movie_id,rating) values (?,?)")) {
+
+            conn.setAutoCommit(false);
+            try {
+                for (Integer rating : ratings) {
+                    if (rating > 10) {
+                        throw new IllegalArgumentException("Invalid rating: "+rating);
+                    }
+                    stmt.setLong(1, movie.getId());
+                    stmt.setInt(2, rating);
+                    stmt.addBatch();
+                }
+                stmt.executeBatch();
+                conn.commit();
+            } catch (IllegalArgumentException iae) {
+                conn.rollback();
+                throw new IllegalStateException(iae.getMessage());
+            }
+        } catch (SQLException se) {
+            throw new IllegalStateException("Cannot insert into rating", se);
+        }
+    }
+
     public List<Integer> findRatingsForMovie(Movie movie) {
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt =

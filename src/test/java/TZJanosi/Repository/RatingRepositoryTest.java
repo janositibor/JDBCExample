@@ -75,7 +75,53 @@ class RatingRepositoryTest {
         assertThat(getMovie3)
                 .hasFieldOrPropertyWithValue("numberOfRatings",2)
                 .hasFieldOrPropertyWithValue("averageOfRatings",List.of(5,6).stream().collect(Collectors.averagingInt(x->x.intValue())));
+    }
+    @Test
+    void saveWithListTest(){
+        Movie movie1=new Movie("Roncsfilm", LocalDate.of(1992,9,1));
+        Movie movie2=new Movie("Papírkutyák", LocalDate.of(2008,10,30));
+        Movie movie3=new Movie("Mielőtt befejezi röptét a denevér", LocalDate.of(1989,1,1));
 
+        movieRepository.saveBasicAndGetGeneratedKey(movie1);
+        movieRepository.saveBasicAndGetGeneratedKey(movie2);
+        movieRepository.saveBasicAndGetGeneratedKey(movie3);
+
+        Movie getMovie1=movieRepository.findMovie(movie1).get();
+        Movie getMovie2=movieRepository.findMovie(movie2).get();
+        Movie getMovie3=movieRepository.findMovie(movie3).get();
+
+        List<Integer> ratings1=List.of(1,2,2,4,1,5,6);
+        List<Integer> ratings2=List.of(10,4,1,8,9);
+        List<Integer> ratings3=List.of();
+
+        ratingRepository.save(getMovie1,ratings1);
+        ratingRepository.save(getMovie2,ratings2);
+        ratingRepository.save(getMovie3,ratings3);
+
+        getMovie1=movieRepository.findMovie(movie1).get();
+        getMovie2=movieRepository.findMovie(movie2).get();
+        getMovie3=movieRepository.findMovie(movie3).get();
+
+        assertThat(getMovie1)
+                .hasFieldOrPropertyWithValue("numberOfRatings",ratings1.size())
+                .hasFieldOrPropertyWithValue("averageOfRatings",ratings1.stream().collect(Collectors.averagingInt(x->x.intValue())));
+        assertThat(getMovie2)
+                .hasFieldOrPropertyWithValue("numberOfRatings",ratings2.size())
+                .hasFieldOrPropertyWithValue("averageOfRatings",ratings2.stream().collect(Collectors.averagingInt(x->x.intValue())));
+        assertThat(getMovie3)
+                .hasFieldOrPropertyWithValue("numberOfRatings",ratings3.size())
+                .hasFieldOrPropertyWithValue("averageOfRatings",ratings3.stream().collect(Collectors.averagingInt(x->x.intValue())));
+    }
+
+    @Test
+    void invalidRatingInListTest(){
+        Movie movie1=new Movie("Roncsfilm", LocalDate.of(1992,9,1));
+        movieRepository.saveBasicAndGetGeneratedKey(movie1);
+        Movie getMovie1=movieRepository.findMovie(movie1).get();
+        List<Integer> ratings1=List.of(1,2,2,4,12,5,6);
+
+        IllegalStateException ise=assertThrows(IllegalStateException.class, ()-> ratingRepository.save(getMovie1,ratings1));
+        assertEquals("Invalid rating: 12",ise.getMessage());
 
     }
 }
