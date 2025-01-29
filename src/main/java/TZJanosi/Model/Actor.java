@@ -1,9 +1,12 @@
 package TZJanosi.Model;
 
+import java.util.List;
+
 public class Actor {
     private long id;
     private String name;
     private int yob;
+    private List<Movie> movies;
 
     public Actor(String name, int yob) {
         this.name = name;
@@ -13,6 +16,14 @@ public class Actor {
     public Actor(long id, String name, int yob) {
         this(name,yob);
         this.id = id;
+    }
+
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
     }
 
     public long getId() {

@@ -10,6 +10,8 @@ public class Movie {
     private LocalDate releaseDate;
     private List<Actor> actors=new ArrayList<>();
     private List<Integer> evaluation=new ArrayList<>();
+    private int numberOfRatings;
+    private double averageOfRatings;
 
     public Movie(String title, LocalDate releaseDate) {
         this.title = title;
@@ -20,6 +22,18 @@ public class Movie {
         this.id = id;
         this.title = title;
         this.releaseDate = releaseDate;
+    }
+
+    public void setActors(List<Actor> actors) {
+        this.actors = actors;
+    }
+
+    public void setNumberOfRatings(int numberOfRatings) {
+        this.numberOfRatings = numberOfRatings;
+    }
+
+    public void setAverageOfRatings(double averageOfRatings) {
+        this.averageOfRatings = averageOfRatings;
     }
 
     public Long getId() {
@@ -49,5 +63,13 @@ public class Movie {
                 ", title='" + title + '\'' +
                 ", releaseDate=" + releaseDate +
                 '}';
+    }
+
+    public int getNumberOfRatings() {
+        return numberOfRatings;
+    }
+
+    public double getAverageOfRatings() {
+        return averageOfRatings;
     }
 }

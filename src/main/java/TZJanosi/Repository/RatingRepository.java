@@ -15,6 +15,7 @@ public class RatingRepository implements Repository {
     }
 
     public void save(Movie movie, Integer rating) {
+
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt =
                      conn.prepareStatement("insert into ratings (movie_id,rating) values (?,?)")) {

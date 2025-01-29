@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -60,6 +61,21 @@ class RatingRepositoryTest {
         assertThat(rating3)
                 .hasSize(2)
                 .containsExactly(5,6);
+
+        getMovie1=movieRepository.findMovie(movie1).get();
+        getMovie2=movieRepository.findMovie(movie2).get();
+        getMovie3=movieRepository.findMovie(movie3).get();
+
+        assertThat(getMovie1)
+                .hasFieldOrPropertyWithValue("numberOfRatings",5)
+                .hasFieldOrPropertyWithValue("averageOfRatings",List.of(1,2,3,4,5).stream().collect(Collectors.averagingInt(x->x.intValue())));
+        assertThat(getMovie2)
+                .hasFieldOrPropertyWithValue("numberOfRatings",5)
+                .hasFieldOrPropertyWithValue("averageOfRatings",List.of(1,3,5,7,9).stream().collect(Collectors.averagingInt(x->x.intValue())));
+        assertThat(getMovie3)
+                .hasFieldOrPropertyWithValue("numberOfRatings",2)
+                .hasFieldOrPropertyWithValue("averageOfRatings",List.of(5,6).stream().collect(Collectors.averagingInt(x->x.intValue())));
+
 
     }
 }

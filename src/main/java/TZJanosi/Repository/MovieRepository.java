@@ -31,7 +31,7 @@ public class MovieRepository implements Repository{
     public Optional<Movie> findMovie(Movie movie) {
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt =
-                     conn.prepareStatement("select id, title,release_date from movies WHERE title LIKE ? AND release_date=?")){
+                     conn.prepareStatement("select movies.id AS id, movies.title AS title, movies.release_date AS release_date, COUNT(ratings.rating) AS number_of_ratings, AVG(ratings.rating) AS average_of_ratings from movies LEFT JOIN ratings ON movies.id=ratings.movie_id WHERE movies.title LIKE ? AND movies.release_date=?")){
             stmt.setString(1, movie.getTitle());
             stmt.setDate(2, Date.valueOf(movie.getReleaseDate()));
             return movieFromStatement(stmt);
@@ -43,9 +43,18 @@ public class MovieRepository implements Repository{
         try (ResultSet rs = stmt.executeQuery()) {
             if (rs.next()) {
                 long id= rs.getLong("id");
+                if(id==0){
+                    return Optional.empty();
+                }
                 String title = rs.getString("title");
                 LocalDate releaseDate = rs.getDate("release_date").toLocalDate();
-                return Optional.of(new Movie(id, title, releaseDate));
+                int numberOfRatings=rs.getInt("number_of_ratings");
+                double averageOfRatings=rs.getDouble("average_of_ratings");
+
+                Movie movie=new Movie(id, title, releaseDate);
+                movie.setNumberOfRatings(numberOfRatings);
+                movie.setAverageOfRatings(averageOfRatings);
+                return Optional.of(movie);
             }
             return Optional.empty();
         }
