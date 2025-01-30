@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -43,6 +44,13 @@ class ActorRepositoryTest {
         assertEquals(2L,getActor2.getId());
         assertEquals(1L,getActor1.getId());
     }
+
+    @Test
+    void notFoundActor(){
+        Actor actor=new Actor("Mucsi Zoltan",1957);
+        Optional<Actor> getActor=actorRepository.findActor(actor);
+        assertFalse(getActor.isPresent());
+    }
     @Test
     void findAllActorTest(){
         Actor actor1=new Actor("Scherer Peter",1961);
@@ -56,5 +64,4 @@ class ActorRepositoryTest {
                 .extracting(Actor::getName,Actor::getYob)
                 .containsExactly(Tuple.tuple("Scherer Peter",1961),Tuple.tuple("Mucsi Zoltan",1957));
     }
-
 }
