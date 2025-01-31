@@ -1,9 +1,8 @@
-package TZJanosi.Service;
+package Service;
 
-import TZJanosi.Model.Actor;
-import TZJanosi.Model.Movie;
-import TZJanosi.Repository.*;
-
+import Repository.*;
+import Model.Actor;
+import Model.Movie;
 import java.time.LocalDate;
 import java.util.List;
 

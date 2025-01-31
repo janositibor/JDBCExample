@@ -1,9 +1,9 @@
-package TZJanosi.Repository;
+package Repository;
 
-import TZJanosi.Model.Actor;
-import TZJanosi.Model.Movie;
-import org.mariadb.jdbc.MariaDbDataSource;
+import Model.Movie;
+import Model.Actor;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActorMovieRepository {
-    private MariaDbDataSource dataSource;
+    private DataSource dataSource;
 
-    public ActorMovieRepository(MariaDbDataSource dataSource) {
+    public ActorMovieRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 

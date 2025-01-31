@@ -1,4 +1,4 @@
-package TZJanosi.Repository;
+package Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

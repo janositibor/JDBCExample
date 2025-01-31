@@ -1,17 +1,16 @@
-package TZJanosi.Repository;
+package Repository;
 
-import TZJanosi.Model.Actor;
-import TZJanosi.Model.Movie;
-import org.mariadb.jdbc.MariaDbDataSource;
+import Model.Movie;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.Optional;
 
 public class MovieRepository implements Repository{
-    private MariaDbDataSource dataSource;
+    private DataSource dataSource;
 
-    public MovieRepository(MariaDbDataSource dataSource) {
+    public MovieRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
     public Optional<Long> saveBasicAndGetGeneratedKey(Movie movie) {

@@ -1,16 +1,16 @@
-package TZJanosi.Repository;
+package Repository;
 
-import TZJanosi.Model.Movie;
-import org.mariadb.jdbc.MariaDbDataSource;
+import Model.Movie;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RatingRepository implements Repository {
-    private MariaDbDataSource dataSource;
+    private DataSource dataSource;
 
-    public RatingRepository(MariaDbDataSource dataSource) {
+    public RatingRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 

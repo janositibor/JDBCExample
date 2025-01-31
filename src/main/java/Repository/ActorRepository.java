@@ -1,17 +1,17 @@
-package TZJanosi.Repository;
+package Repository;
 
-import TZJanosi.Model.Actor;
-import org.mariadb.jdbc.MariaDbDataSource;
+import Model.Actor;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class ActorRepository implements Repository{
-    private MariaDbDataSource dataSource;
+    private DataSource dataSource;
 
-    public ActorRepository(MariaDbDataSource dataSource) {
+    public ActorRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
     public Optional<Long> saveBasicAndGetGeneratedKey(Actor actor) {
@@ -27,6 +27,33 @@ public class ActorRepository implements Repository{
         } catch (SQLException sqle) {
             throw new IllegalArgumentException("Error by insert actor: "+actor, sqle);
         }
+    }
+
+    public void updateActor(Actor actorToUpdate, Actor pattern){
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt =
+                     conn.prepareStatement("UPDATE actors SET name = ?, yob=?  WHERE id = ?")){
+            stmt.setString(1, pattern.getName());
+            stmt.setInt(2, pattern.getYob());
+            stmt.setLong(3, actorToUpdate.getId());
+            int rowsAffected = stmt.executeUpdate();
+        }catch(SQLException sqle){
+            throw new IllegalArgumentException("Error in updateActor: "+actorToUpdate, sqle);
+        }
+
+
+        }
+    public void deleteActor(Long id){
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt =
+                     conn.prepareStatement("DELETE FROM actors WHERE id = ?")){
+            stmt.setLong(1, id);
+            int rowsAffected = stmt.executeUpdate();
+        }catch(SQLException sqle){
+            throw new IllegalArgumentException("Error in updateActor: "+id, sqle);
+        }
+
+
     }
 
     public Optional<Actor> findActor(Actor actor) {
