@@ -100,7 +100,5 @@ class ActorRepositoryTest {
                 .hasSize(1)
                 .extracting(Actor::getName,Actor::getYob)
                 .containsExactly(Tuple.tuple("Mucsi Zoltan",1957));
-
-
     }
 }

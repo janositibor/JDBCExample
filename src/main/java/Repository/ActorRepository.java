@@ -52,8 +52,6 @@ public class ActorRepository implements Repository{
         }catch(SQLException sqle){
             throw new IllegalArgumentException("Error in updateActor: "+id, sqle);
         }
-
-
     }
 
     public Optional<Actor> findActor(Actor actor) {
